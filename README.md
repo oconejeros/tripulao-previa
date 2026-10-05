@@ -1,0 +1,48 @@
+# Previa "Ponerle" — Horacio Rebolledo y el Tripulao
+
+Animación pixel art en loop (~3 min) para proyectar mientras el público llega al concierto pre estreno de *Ponerle*, segunda producción musical de Horacio Rebolledo y el Tripulao.
+
+Un solo archivo (`index.html`), sin dependencias ni internet: se abre en cualquier navegador.
+
+## Escenas
+
+| # | Escena | Tema |
+|---|--------|------|
+| 0 | Título con telón | — |
+| 1 | Presentación del Tripulao | — |
+| 2 | Plaza de Armas de Castro | Amor divino |
+| 3 | Fiesta chilota con curanto y pericona | La pericona sueña enamorarse |
+| 4 | Palafitos al atardecer | Bendita existencia |
+| 5 | Minga, tiradura de casa | El viejo |
+| 6 | Camino rural | Soldado que arranca |
+| 7 | A bordo del Caleuche, con faro | Sirilla de la esperanza |
+| 8 | Cancha del barrio | A penales |
+| 9 | Bitácora con el setlist | — |
+| 10 | Escenario final y cuenta regresiva | Ponerle |
+
+## Uso
+
+- **F** o doble clic: pantalla completa
+- **M**: música chiptune (apagada por defecto)
+- **← →**: cambiar escena
+
+Parámetros en la URL:
+
+- `?hora=21:30` — cuenta regresiva hasta esa hora
+- `?musica=1` — activa la música con el primer clic
+- `?escena=N` — comienza en la escena N
+- `?t=X` — congela la escena en el segundo X (para capturas)
+
+## Integrantes
+
+| Integrante | Instrumento |
+|---|---|
+| Horacio Rebolledo | Guitarra acústica, composición |
+| Oscar Conejeros | Guitarra eléctrica y electroacústica |
+| Jack Mundarain | Bajo |
+| Pepe Garrido | Batería |
+| Miguel Razzouk | Saxo alto |
+| Cristóbal del Río | Saxo tenor |
+| Roberto Andrade | Trompeta |
+
+Textos, setlist e integrantes se editan en `CONFIG` y `BAND`, al comienzo del script.
