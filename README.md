@@ -10,15 +10,16 @@ Un solo archivo (`index.html`), sin dependencias ni internet: se abre en cualqui
 |---|--------|------|
 | 0 | Título con telón | — |
 | 1 | Presentación del Tripulao | — |
-| 2 | Plaza de Armas de Castro | Amor divino |
-| 3 | Fiesta chilota con curanto y pericona | La pericona sueña enamorarse |
-| 4 | Palafitos al atardecer | Bendita existencia |
-| 5 | Minga, tiradura de casa | El viejo |
-| 6 | Camino rural | Soldado que arranca |
-| 7 | A bordo del Caleuche, con faro | Sirilla de la esperanza |
-| 8 | Cancha del barrio | A penales |
-| 9 | Bitácora con el setlist | — |
-| 10 | Escenario final y cuenta regresiva | Ponerle |
+| 2 | Parrillada en un patio de Nercón, a orillas del fiordo | Ponerle |
+| 3 | Plaza de Armas de Castro y túneles bajo la Recta Provincia | Amor divino |
+| 4 | Fiesta chilota con curanto y pericona | La pericona sueña enamorarse |
+| 5 | Palafitos al atardecer | Bendita existencia |
+| 6 | Minga, tiradura de casa | El viejo |
+| 7 | Camino rural | Soldado que arranca |
+| 8 | A bordo del Caleuche, con faro | Sirilla de la esperanza |
+| 9 | Cancha del barrio | A penales |
+| 10 | Bitácora con el setlist | — |
+| 11 | Escenario final y cuenta regresiva | Ponerle |
 
 ## Uso
 
@@ -44,5 +45,6 @@ Parámetros en la URL:
 | Miguel Razzouk | Saxo alto |
 | Cristóbal del Río | Saxo tenor |
 | Roberto Andrade | Trompeta |
+| José Francisco Vargas | Acordeón |
 
 Textos, setlist e integrantes se editan en `CONFIG` y `BAND`, al comienzo del script.
