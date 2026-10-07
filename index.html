@@ -297,6 +297,25 @@ function majador(x,y,t,col,ph){const u=Math.abs(Math.sin(t*3+ph)),hy=Math.round(
   R(x-2,y-19,5,5,'#d8a07a');P(x-1,y-17,'#1a1010');R(x-3,y-20,7,1,'#d8b860');R(x-2,y-22,5,2,'#d8b860');
   R(x+5,hy-16,1,16,'#a07040');R(x+2,hy-3,8,4,'#8a5a30');line(x+2,y-12,x+5,hy-9,'#d8a07a');line(x-2,y-12,x+5,hy-12,col);
   if(u<.25){srand(Math.round(x)+Math.floor(t*3+ph));for(let i=0;i<5;i++)P(x+6+(rnd()-.5)*10,139-rnd()*5,rnd()<.5?'#f0d860':'#e8e0a0');}}
+/* lluvia: líneas diagonales que caen */
+function lluvia(t,n=90,c='#a8c0e0',a=.55){srand(77);alpha(a,()=>{for(let i=0;i<n;i++){const x0=rnd()*(W+40),sp=1+rnd()*.5,ph=rnd();
+  const y=((t*sp+ph)%1)*(GH+10)-10,x=((x0-y*.3)%(W+40)+W+40)%(W+40)-20;line(x,y,x-2,y+5,c);}});}
+function arcoiris(cx,cy,r,a=.45){alpha(a,()=>['#e84040','#f09030','#f0e040','#50c050','#4080e0','#8050c0'].forEach((c,k)=>{
+  for(let q=0;q<=Math.PI;q+=.008)R(cx+Math.cos(q)*(r-k*3),cy-Math.sin(q)*(r-k*3),2,3,c);}));}
+/* turista sacando fotos */
+function turista(x,y,t,c,ph,f=1){x=Math.round(x);y=Math.round(y);
+  R(x-2,y-6,2,6,'#3a4a6a');R(x+1,y-6,2,6,'#3a4a6a');R(x-3,y-13,7,7,c);R(x-2,y-18,5,5,'#e8b890');
+  R(x-3,y-19,7,2,'#f4e8c0');R(x-4,y-18,9,1,'#f4e8c0');if(ph%2>1)R(x-5*f-(f<0?-3:0),y-13,2,5,'#6a5a3a');
+  line(x+f*2,y-12,x+f*5,y-16,'#e8b890');R(x+f*5-(f<0?2:0),y-18,3,3,'#1a1a1a');P(x+f*6-(f<0?1:0),y-17,'#6ab0ff');
+  if((t*1.4+ph)%2.3<.12)alpha(.9,()=>{oval(x+f*7,y-17,5,5,'#ffffff');R(x+f*7-6,y-17,12,1,'#ffffff');});}
+/* telaraña en una esquina (sx,sy: hacia dónde se abre) */
+function telarana(x,y,sx,sy,L=12){alpha(.5,()=>{const pts=[0,.4,.8,1.2,1.57].map(q=>[Math.cos(q)*sx,Math.sin(q)*sy]);
+  for(const[a,b]of pts)line(x,y,x+a*L,y+b*L,'#d0d0d8');
+  for(const k of[.35,.65,1])for(let i=0;i<4;i++)line(x+pts[i][0]*L*k,y+pts[i][1]*L*k,x+pts[i+1][0]*L*k,y+pts[i+1][1]*L*k,'#d0d0d8');});}
+/* chonchón: cabeza de brujo que vuela con las orejas */
+function chonchon(x,y,t){x=Math.round(x);y=Math.round(y);const fl=Math.floor(t*10)%2;
+  R(x-3,y-3,6,6,'#c89a70');R(x-3,y-4,6,2,'#2a1a10');P(x-2,y-1,'#ff3030');P(x+1,y-1,'#ff3030');R(x-1,y+2,3,1,'#5a1a1a');
+  R(x-8,y-2-(fl?3:0),5,2,'#c89a70');R(x+3,y-2-(fl?3:0),5,2,'#c89a70');R(x-6,y-(fl?2:0),3,1,'#a87a50');R(x+3,y-(fl?2:0),3,1,'#a87a50');}
 function beam(x,y,ang,len,hw,c,a){
   alpha(a,()=>{ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x,y);
     ctx.lineTo(x+Math.sin(ang-hw)*len,y+Math.cos(ang-hw)*len);ctx.lineTo(x+Math.sin(ang+hw)*len,y+Math.cos(ang+hw)*len);ctx.fill();});
@@ -446,6 +465,10 @@ const SCENES=[
   const kb=Math.floor(t*BPS*2)%2;
   R(8,148-kb,4,6,'#e05a8a');R(9,145-kb,3,3,'#e0a882');R(9,154,1,4,'#2a2a4a');R(11,154,1,4,'#2a2a4a');
   R(302,142,6,10,'#4a6a3a');R(303,137,4,5,'#d8a07a');R(303,152,2,6,'#1a1a1a');R(306,152,2,6,'#1a1a1a');
+  // turistas sacando fotos (algunos apuntan hacia abajo, a los túneles)
+  for(const[x,c,f]of[[30,'#e84a6a',1],[44,'#3ab0d0',1],[58,'#f2c832',-1],[78,'#7ac84a',1],[92,'#e07a2a',-1],
+                     [226,'#5a7ae8',1],[240,'#d84ad8',-1],[258,'#3ac89a',1],[272,'#e84a4a',-1],[288,'#f0f0f0',-1]])
+    turista(x,163+(x%3),t,c,x*.13,f);
   // subsuelo: capas de tierra y piedras
   R(0,170,W,130,'#4a3020');R(0,170,W,2,'#6a4a2c');
   srand(17);for(let i=0;i<90;i++){const y=172+rnd()*124|0;R(rnd()*W|0,y,2+(rnd()*3|0),1,y<206?'#5a3c26':'#3a2416');}
@@ -463,6 +486,15 @@ const SCENES=[
   // faroles
   for(const x of[106,214]){const fl=.6+.4*Math.sin(t*9+x)*Math.sin(t*5.3+x);
     alpha(.12+.06*fl,()=>oval(x,TT+26,34,26,'#ffb050'));R(x-2,TT+18,5,7,'#2a2a2a');R(x-1,TT+19,3,5,fl>.5?'#ffe27a':'#ffb347');R(x,TT+14,1,4,'#2a2a2a');}
+  // cosas de brujo: telarañas, repisas con frascos, calaveras y velas
+  for(const x of[52,160,268]){telarana(x-14,TT+7,-1,1);telarana(x+16,TT+7,1,1);}
+  telarana(1,TT+8,1,1,16);telarana(W-1,TT+8,-1,1,16);
+  for(const x of[14,120,232]){R(x,TT+30,40,2,'#5a3820');
+    for(let i=0;i<3;i++){const jx=x+3+i*8,c=['#4ac86a','#a04ad8','#d8a030'][(i+x)%3];R(jx,TT+23,5,7,c);R(jx+1,TT+22,3,1,'#8a6a40');
+      alpha(.25+.15*Math.sin(t*3+i+x),()=>oval(jx+2,TT+26,5,5,c));}
+    R(x+28,TT+25,6,5,'#e8e4d8');P(x+29,TT+27,'#1a1010');P(x+32,TT+27,'#1a1010');R(x+30,TT+29,2,1,'#1a1010');
+    R(x+36,TT+24,2,6,'#f0e8d0');const fl=Math.sin(t*12+x)>0;P(x+36+(fl?0:1),TT+22,'#ffd040');P(x+36,TT+21,fl?'#fff0a0':'#ff8030');}
+  {const u=(t*.18)%1;chonchon(-20+u*(W+40),TT+18+Math.sin(t*3)*4,t);}
   // gotas desde el techo
   for(let i=0;i<3;i++){const u=(t*.7+i*.37)%1,x=70+i*90;P(x,TT+8+u*(TB-TT-8),'#6a8ab0');}
   // banda marchando bajo tierra
@@ -535,7 +567,8 @@ const SCENES=[
 /* minga: tiradura de casa */
 {id:'minga',song:'SIRILLA DE LA ESPERANZA',dur:17,draw(t){
   grad(0,96,['#6aa8e0','#84b8e8','#a0c8ee','#c0dcf2']);
-  cloud(60+t,24,1.4,'#f4f4f4','#c8d4e0');cloud(220+t*.7,32,1.1,'#f4f4f4','#c8d4e0');
+  arcoiris(200,100,78);
+  cloud(60+t,24,1.4,'#c8ccd8','#a0a8b8');cloud(220+t*.7,32,1.1,'#c8ccd8','#a0a8b8');
   for(let x=0;x<W;x++){const y1=80+Math.round(Math.sin(x*.025)*8+Math.sin(x*.07)*3);R(x,y1,1,30,'#3a7a4a');
     const y2=90+Math.round(Math.sin(x*.04+2)*4);R(x,y2,1,14,'#2a6a3a');}
   srand(3);for(let i=0;i<40;i++){const x=rnd()*W|0;tri(x,92+(rnd()*6|0),2,7,'#1f5a32');}
@@ -558,6 +591,7 @@ const SCENES=[
   viejo(12,163,t);
   for(let i=1;i<5;i++){const px=[8,30,46,272,296][i],w=Math.floor(t*3+i)%2;R(px,156,5,6,['#c84a3a','#3a6ab0','#e8c860','#7a4aa0','#2a9a8a'][i]);
     R(px+1,152,3,4,'#d8a07a');R(px+(w?5:-1),w?151:153,1,4,'#d8a07a');R(px+1,162,1,2,'#1a1a1a');R(px+3,162,1,2,'#1a1a1a');}
+  lluvia(t,70,'#e0ecff',.45);
   tag('MINGA · TIRADURA DE CASA',t);
 }},
 /* el Caleuche */
@@ -587,12 +621,19 @@ const SCENES=[
   alpha(ap,()=>{bailarin(sx+6+Math.cos(t*1.2)*5,sy-12,t,1);bailarin(sx+22-Math.cos(t*1.2)*5,sy-12,t,0,1);});
   oval(306,112,18,6,'#14141e');R(301,84,9,26,'#e8e8e8');R(301,92,9,4,'#c8303a');R(301,102,9,4,'#c8303a');R(300,80,11,4,'#2a2a30');R(302,81,7,2,'#ffe27a');
   beam(305,82,-Math.PI/2+Math.sin(t*.7)*.5,200,.07,'#fff3b0',.13);alpha(.3,()=>oval(305,82,6,6,'#ffe27a'));
+  // lluvia sobre el mar
+  cloud(60+t*3,14,2,'#2a3050','#1c2038');cloud(170+t*2,10,2.4,'#262c48','#1c2038');
+  srand(41);for(let i=0;i<14;i++){const u=(t*1.5+rnd())%1;alpha(.4*(1-u),()=>oval(rnd()*W,114+rnd()*54,1+u*4,u*1.5,'#8aa0c8'));}
+  lluvia(t,110,'#8aa0c8',.5);
   tag('EL TRIPULAO A BORDO DEL CALEUCHE',t);
 }},
 /* curanto y fogón */
 {id:'curanto',song:'LA PERICONA SUEÑA ENAMORARSE',dur:15,draw(t){
   grad(0,120,['#0a0a20','#1a1236','#2e1a44','#4a2448','#6a3048']);
   stars(t,70);
+  // gran luna llena
+  alpha(.08,()=>oval(236,58,52,52,'#fff0c8'));alpha(.14,()=>oval(236,58,38,38,'#fff0c8'));
+  oval(236,58,28,28,'#f4ecd0');oval(230,52,6,5,'#dcd2b0');oval(246,64,8,6,'#dcd2b0');oval(226,70,4,3,'#dcd2b0');oval(248,46,3,3,'#dcd2b0');
   for(let x=0;x<W;x++){const y=104+Math.round(Math.sin(x*.03)*6+Math.sin(x*.09)*2);R(x,y,1,20,'#1a1426');}
   casa(14,128,40,26,'#3a3a5a','#2a1a2a','#2a2a48',1);
   R(0,128,W,42,'#1e2a1a');srand(4);for(let i=0;i<60;i++)P(rnd()*W|0,128+(rnd()*42|0),'#2a3a22');
