@@ -271,6 +271,22 @@ srand(11);
 const STARS=[...Array(80)].map(()=>[rnd()*W|0,rnd()*100|0,rnd()*7|0]);
 function stars(t,maxY=100){for(const[x,y,k]of STARS){if(y>maxY)continue;const tw=(k+Math.floor(t*3))%7===0;P(x,y,tw?'#5a5580':(k<2?'#fff6d8':'#b8b3e0'));}}
 function tag(s,t){} // títulos de escena desactivados
+/* tonina (delfín chileno) saltando: x,y centro; vx,vy dirección del salto */
+function tonina(x,y,vx,vy){const a=Math.atan2(vy,vx),c=Math.cos(a),s=Math.sin(a),f=vx<0?-1:1;
+  const K=1.5,pt=(u,v,col)=>R(x+K*(u*c-v*f*s),y+K*(u*s+v*f*c),2,2,col);
+  for(let u=-9;u<=8;u+=.5){const hw=u>5?2.4*(1-(u-5)/4):2.8*Math.sqrt(Math.max(0,1-((u+1)/9.5)**2))+.3;
+    for(let v=-hw;v<=hw;v+=.5)pt(u,v,v<hw*.2?'#3a4250':v<hw*.55?'#6a7484':'#e4e8ec');}
+  for(let u=8;u<=10;u+=.5)pt(u,.3,'#5a6270');
+  for(let k=0;k<4;k++)for(let u=-1-k*.4;u<=1.5-k*.8;u+=.5)pt(u,-3-k,'#3e4652');
+  for(let k=-3;k<=3;k+=.5)pt(-10-Math.abs(k)*.4,k,'#3e4652');
+  pt(6,-.6,'#101018');}
+function toninas(t,wl){
+  for(let i=0;i<3;i++){const k=(t+i*.7)%2.4,X=W+40-(t-1.5)*28+i*26;if(k>1.3||X<-30||X>W+30)continue;
+    const u=k/1.3,x=X-u*34,y=wl-4*u*(1-u)*26,vx=-34/1.3,vy=-26*4*(1-2*u)/1.3;
+    alpha(.5,()=>oval(X-(u<.5?0:34),wl+1,6,1.5,'#cfe4f8'));
+    if(u<.2||u>.8){const sx=u<.5?X:X-34,q=u<.5?u/.2:(1-u)/.2;srand(i*7+Math.floor(t/2.4)+1);
+      for(let j=0;j<7;j++)P(sx+(rnd()-.5)*12,wl-rnd()*7*(1-q)-1,'#eaf4ff');}
+    if(y<wl+1)tonina(x,y,vx,vy);}}
 function beam(x,y,ang,len,hw,c,a){
   alpha(a,()=>{ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x,y);
     ctx.lineTo(x+Math.sin(ang-hw)*len,y+Math.cos(ang-hw)*len);ctx.lineTo(x+Math.sin(ang+hw)*len,y+Math.cos(ang+hw)*len);ctx.fill();});
@@ -467,6 +483,7 @@ const SCENES=[
   ORDER.forEach((m,i)=>musico(m,bx+32+i*14,by,t,{noShadow:1}));
   boatHull(bx,by,150,'#f4f4f4','#2a5a9a','#d8402a');txt(CONFIG.titulo,bx+60,by+5,'#f4f4f4');
   alpha(.3,()=>R(bx+10,by+10,130,2,'#f8b060'));
+  toninas(t,156);
   notes(ORDER.map((m,i)=>[bx+32+i*14,by-30]),t);
   for(let i=0;i<4;i++)gull((i*80+t*(18+i*3))%(W+40)-20,22+i*9+Math.sin(t+i)*3,t,'#3a2a4a');
   tag('PALAFITOS · GAMBOA',t);
