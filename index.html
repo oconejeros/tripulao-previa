@@ -36,7 +36,7 @@ const CONFIG={
     'SUBE A BORDO: EL TRIPULAO ZARPA EN UNOS MINUTOS',
     'DESDE CASTRO, CHILOÉ, PARA TODOS USTEDES',
   ],
-  setlist:['PONERLE','AMOR DIVINO','LA PERICONA SUEÑA ENAMORARSE','BENDITA EXISTENCIA',
+  setlist:['PONERLE','AMOR DIVINO','LA PERICONA SUEÑA ENAMORARSE','BENDITA EXISTENCIA','CELEBRANDO TU BICENTENARIO',
            'EL VIEJO','SIRILLA DE LA ESPERANZA','SOLDADO QUE ARRANCA','A PENALES'],
 };
 CONFIG.mensajes=CONFIG.mensajes.map(m=>m.replace('#SETLIST#',CONFIG.setlist.join(' · ')));
@@ -561,7 +561,7 @@ const SCENES=[
   tag('MINGA · TIRADURA DE CASA',t);
 }},
 /* el Caleuche */
-{id:'caleuche',dur:17,draw(t){
+{id:'caleuche',song:'CELEBRANDO TU BICENTENARIO',dur:17,draw(t){
   grad(0,110,['#04040e','#080a1c','#0c1028','#121834','#18203e']);
   stars(t,100);
   oval(268,30,9,9,'#f5e6b8');oval(272,28,8,8,'#18203e');alpha(.15,()=>oval(268,30,18,18,'#f5e6b8'));
@@ -670,7 +670,7 @@ const SCENES=[
     txtB('BITÁCORA DEL TRIPULAO',W/2,24,'#3a2410',1,1);txt('ESTA NOCHE SUENA',W/2,35,'#8a5a30',1,1);
     R(90,42,140,1,'#c8a868');
     CONFIG.setlist.forEach((s,i)=>{const a=clamp((t-1.8-i*.7)/.4);
-      alpha(a,()=>{const y=48+i*12;txtB((i+1)+'.',64,y,'#a02a1a');txtB(s,80,y,'#3a2410');});});
+      alpha(a,()=>{const y=47+i*11;txtB((i+1)+'.',64,y,'#a02a1a');txtB(s,80,y,'#3a2410');});});
     alpha(clamp((t-8)/.6),()=>txt(CONFIG.artista+' '+CONFIG.banda,W/2,148,'#8a5a30',1,1));
   }
 }},
@@ -712,7 +712,7 @@ const SCENES=[
 }},
 ];
 
-const ORDEN=['titulo','banda','parrillada','plaza','curanto','palafitos','maja','minga','soldado','caleuche','penales','setlist','final'];
+const ORDEN=['titulo','banda','parrillada','plaza','curanto','palafitos','caleuche','maja','minga','soldado','penales','setlist','final'];
 SCENES.sort((a,b)=>ORDEN.indexOf(a.id)-ORDEN.indexOf(b.id));
 
 /* ---------- cinta inferior ---------- */
