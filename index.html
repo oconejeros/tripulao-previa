@@ -236,7 +236,7 @@ function timon(cx,cy,t){const a=Math.sin(t*.8)*.6;
   for(let i=0;i<8;i++){const q=a+i*Math.PI/4;line(cx,cy,cx+Math.cos(q)*22,cy+Math.sin(q)*22,'#8a5a2a');R(cx+Math.cos(q)*24-1,cy+Math.sin(q)*24-1,3,3,'#6a3a18');}
   for(let k=0;k<64;k++){const q=k/64*Math.PI*2;R(cx+Math.cos(q)*15,cy+Math.sin(q)*15,2,2,'#7a4a20');}
   oval(cx,cy,3,3,'#c8a040');}
-function songCard(s,t){const lab='TEMA: '+s,w=tw(lab)+16,x=Math.round(W+4-ease(clamp((t-.4)/.8))*(w+10));
+function songCard(s,t){const lab=s,w=tw(lab)+16,x=Math.round(W+4-ease(clamp((t-.4)/.8))*(w+10));
   R(x,6,w,11,'rgba(10,8,20,.82)');R(x+w-2,6,2,11,'#ff9ad5');note(x+2,8,'#ff9ad5');txt(lab,x+10,9,'#f3e9d2');}
 /* dibuja con zoom usando un lienzo auxiliar */
 const OC=document.createElement('canvas');OC.width=48;OC.height=40;const OX=OC.getContext('2d');
@@ -590,7 +590,7 @@ const SCENES=[
   ORDER.forEach((m,i)=>musico(m,14+i*19,168-(cel&&gol&&Math.floor(t*6+i)%2?2:0),t));
   notes(ORDER.map((m,i)=>[14+i*19,136]),t,cel?.7:.35);
   if(cel){const k=ease(clamp((c-3.1)/.3));
-    alpha(k,()=>txtBSh('¡MAUTUY!',W/2,16,gol?'#ffe27a':'#9ae6ff',3,1,'#3a2000',2));
+    if(gol)alpha(k,()=>txtBSh('¡AMUTUY!',W/2,16,'#ffe27a',3,1,'#3a2000',2));
     if(gol){srand(n+3);for(let i=0;i<40;i++){const u=(c-3.1+rnd())%1.5;P(rnd()*W,u*110+20,CROWD[i%6]);}}}
   tag('CANCHA DEL BARRIO',t);
 }},
@@ -712,6 +712,7 @@ function frame(ms){
   const S=SCENES[sc];
   ctx.clearRect(0,0,W,H);
   S.draw(t);
+  if(S.song)songCard(S.song,t);
   shade(Math.max(1-t/.6,1-(S.dur-t)/.6));
   ticker(now);
   if(now-flashT<1.5){const w=tw(flashMsg)+10;R(W/2-w/2,150,w,11,'rgba(10,8,20,.85)');txt(flashMsg,W/2,153,'#ffe27a',1,1);}
