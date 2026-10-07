@@ -31,7 +31,7 @@ Parámetros en la URL:
 
 - `?hora=21:30` — cuenta regresiva hasta esa hora
 - `?musica=1` — activa la música con el primer clic
-- `?escena=N` — comienza en la escena N
+- `?escena=N` — comienza en la escena N (0..12)
 - `?t=X` — congela la escena en el segundo X (para capturas)
 
 ## Integrantes

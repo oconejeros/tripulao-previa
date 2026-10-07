@@ -21,7 +21,7 @@ body.idle{cursor:none}
    Animación pixel art en loop para proyectar mientras llega el público.
    Opciones por URL:  ?hora=21:30  muestra cuenta regresiva
                       ?musica=1    arranca con música (requiere un clic)
-                      ?escena=N    empieza en la escena N (0..11)
+                      ?escena=N    empieza en la escena N (0..12)
    ========================================================================== */
 const CONFIG={
   artista:'HORACIO REBOLLEDO',
@@ -287,6 +287,16 @@ function toninas(t,wl){
     if(u<.2||u>.8){const sx=u<.5?X:X-34,q=u<.5?u/.2:(1-u)/.2;srand(i*7+Math.floor(t/2.4)+1);
       for(let j=0;j<7;j++)P(sx+(rnd()-.5)*12,wl-rnd()*7*(1-q)-1,'#eaf4ff');}
     if(y<wl+1)tonina(x,y,vx,vy);}}
+/* manzano con manzanas rojas */
+function manzano(x,b,s){R(x-1.5*s,b-12*s,3*s,12*s,'#5a3a20');oval(x,b-18*s,11*s,8*s,'#2a6a32');
+  oval(x-5*s,b-20*s,7*s,6*s,'#3a8a3a');oval(x+5*s,b-21*s,7*s,6*s,'#3a8a3a');oval(x,b-24*s,7*s,5*s,'#4a9a44');
+  srand(Math.round(x*7+b)+1);for(let i=0;i<10*s;i++){const q=s>1?2:1;R(x+(rnd()-.5)*18*s,b-28*s+rnd()*16*s,q,q,rnd()<.25?'#e8c040':'#d83030');}}
+/* majador: machaca manzanas con mazo de luma */
+function majador(x,y,t,col,ph){const u=Math.abs(Math.sin(t*3+ph)),hy=Math.round(141-u*14);
+  R(x-2,y-6,2,6,'#3a3a4a');R(x+1,y-6,2,6,'#3a3a4a');R(x-3,y-14,7,8,col);
+  R(x-2,y-19,5,5,'#d8a07a');P(x-1,y-17,'#1a1010');R(x-3,y-20,7,1,'#d8b860');R(x-2,y-22,5,2,'#d8b860');
+  R(x+5,hy-16,1,16,'#a07040');R(x+2,hy-3,8,4,'#8a5a30');line(x+2,y-12,x+5,hy-9,'#d8a07a');line(x-2,y-12,x+5,hy-12,col);
+  if(u<.25){srand(Math.round(x)+Math.floor(t*3+ph));for(let i=0;i<5;i++)P(x+6+(rnd()-.5)*10,139-rnd()*5,rnd()<.5?'#f0d860':'#e8e0a0');}}
 function beam(x,y,ang,len,hw,c,a){
   alpha(a,()=>{ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x,y);
     ctx.lineTo(x+Math.sin(ang-hw)*len,y+Math.cos(ang-hw)*len);ctx.lineTo(x+Math.sin(ang+hw)*len,y+Math.cos(ang+hw)*len);ctx.fill();});
@@ -488,8 +498,42 @@ const SCENES=[
   for(let i=0;i<4;i++)gull((i*80+t*(18+i*3))%(W+40)-20,22+i*9+Math.sin(t+i)*3,t,'#3a2a4a');
   tag('PALAFITOS · GAMBOA',t);
 }},
+/* maja de manzana */
+{id:'maja',song:'EL VIEJO',dur:17,draw(t){
+  grad(0,100,['#7ab0e0','#98c4e8','#c0d8ec','#e8e0c8']);
+  cloud(50+t*.8,22,1.2,'#f8f8f8','#d0dce8');cloud(240+t*.5,30,1,'#f8f8f8','#d0dce8');
+  for(let x=0;x<W;x++){const y1=74+Math.round(Math.sin(x*.03+1)*7+Math.sin(x*.08)*2);R(x,y1,1,40,'#5a8a4a');
+    const y2=88+Math.round(Math.sin(x*.045+3)*4);R(x,y2,1,30,'#4a7a3a');}
+  R(0,112,W,58,'#5a9a3a');srand(5);for(let i=0;i<140;i++)R(rnd()*W,112+rnd()*58,2,1,'#4a8a30');
+  for(let i=0;i<10;i++)manzano(14+i*33,115,.8);
+  // manzanas que caen
+  for(let i=0;i<5;i++){const k=(t+i*.53)%2.6,x=30+i*66;if(k<.6)R(x,98+k*28,2,2,'#d83030');else R(x,114,2,2,'#d83030');}
+  manzano(10,158,1.5);manzano(312,158,1.5);
+  // dornajo con majadores
+  majador(48,146,t,'#c84a3a',0);majador(76,146,t,'#3a6ab0',1.6);
+  R(30,140,64,10,'#7a4a24');R(30,140,64,2,'#9a6a3a');R(33,141,58,3,'#5a3018');
+  srand(9);for(let i=0;i<22;i++)R(34+rnd()*54,140+rnd()*2,2,2,rnd()<.3?'#e8c040':rnd()<.5?'#f0d860':'#d83030');
+  R(34,150,3,8,'#5a3018');R(87,150,3,8,'#5a3018');
+  // canastos de manzanas
+  for(const bx of[18,100]){R(bx-6,156,13,7,'#b08040');for(let i=0;i<13;i+=3)R(bx-6+i,156,1,7,'#8a6030');
+    for(let i=0;i<5;i++)R(bx-5+i*2.5,154+(i%2),2,2,'#d83030');}
+  // prensa de viga: cajón, viga y piedra
+  const bob=Math.round(Math.sin(t*1.2)*1.5);
+  R(240,134,24,16,'#8a5a30');for(let y=136;y<150;y+=4)R(240,y,24,1,'#d8c060');R(240,134,24,2,'#a06a3a');
+  R(226,108,5,50,'#6a4024');R(225,106,7,3,'#5a3018');
+  R(241,130,22,4,'#6a4024');for(let k=0;k<3;k++)line(228,124+k,300,129+bob+k,'#7a4a24');
+  line(298,131+bob,298,139+bob,'#d8c890');oval(298,144+bob,6,5,'#8a8a90');oval(296,142+bob,3,2,'#a8a8b0');
+  // la chicha cae al balde
+  R(262,146,6,1,'#c8a030');for(let k=0;k<3;k++){const dy=(t*18+k*3)%8;P(268,147+dy,'#e8c040');}
+  R(263,155,12,9,'#7a5030');R(263,157,12,1,'#3a2a1a');R(263,161,12,1,'#3a2a1a');R(264,155,10,1,'#e8c040');
+  // la banda y el viejo
+  ORDER.forEach((m,i)=>musico(m,110+i*15,163,t));
+  notes(ORDER.map((m,i)=>[110+i*15,131]),t);
+  viejo(284,164,t);
+  tag('MINGA · MAJA DE MANZANA',t);
+}},
 /* minga: tiradura de casa */
-{id:'minga',song:'EL VIEJO',dur:17,draw(t){
+{id:'minga',song:'SIRILLA DE LA ESPERANZA',dur:17,draw(t){
   grad(0,96,['#6aa8e0','#84b8e8','#a0c8ee','#c0dcf2']);
   cloud(60+t,24,1.4,'#f4f4f4','#c8d4e0');cloud(220+t*.7,32,1.1,'#f4f4f4','#c8d4e0');
   for(let x=0;x<W;x++){const y1=80+Math.round(Math.sin(x*.025)*8+Math.sin(x*.07)*3);R(x,y1,1,30,'#3a7a4a');
@@ -517,7 +561,7 @@ const SCENES=[
   tag('MINGA · TIRADURA DE CASA',t);
 }},
 /* el Caleuche */
-{id:'caleuche',song:'SIRILLA DE LA ESPERANZA',dur:17,draw(t){
+{id:'caleuche',dur:17,draw(t){
   grad(0,110,['#04040e','#080a1c','#0c1028','#121834','#18203e']);
   stars(t,100);
   oval(268,30,9,9,'#f5e6b8');oval(272,28,8,8,'#18203e');alpha(.15,()=>oval(268,30,18,18,'#f5e6b8'));
@@ -668,7 +712,7 @@ const SCENES=[
 }},
 ];
 
-const ORDEN=['titulo','banda','parrillada','plaza','curanto','palafitos','minga','soldado','caleuche','penales','setlist','final'];
+const ORDEN=['titulo','banda','parrillada','plaza','curanto','palafitos','maja','minga','soldado','caleuche','penales','setlist','final'];
 SCENES.sort((a,b)=>ORDEN.indexOf(a.id)-ORDEN.indexOf(b.id));
 
 /* ---------- cinta inferior ---------- */
